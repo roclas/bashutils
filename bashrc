@@ -15,6 +15,7 @@ alias ec="~/programas/eclipse2/eclipse &"
 export EDITOR="vim"
 export VISUAL="vim"
 
+PYTHONPATH="${PYTHONPATH}:$HOME/proyectos/github/utils27.py"
 
 export PS1='\[\033[01;36m\]\u\[\033[01;37m\]@\h\[\033[01;35m\]\w\n\[\033[01;37m\]\$\[\033[01;00m\]'
 
