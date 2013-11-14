@@ -11,6 +11,7 @@ export PIG_HOME=/home/carlos/programas/pig
 export PATH=$JAVA_HOME/bin:$MAVEN_HOME/bin:$PATH:$PIG_HOME/bin
 
 alias ec="~/programas/eclipse2/eclipse &"
+alias sonar="~/programas/sonarqube-4.0/bin/linux-x86-64/sonar.sh"
 
 export EDITOR="vim"
 export VISUAL="vim"
