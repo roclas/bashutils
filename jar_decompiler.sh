@@ -25,6 +25,7 @@ do
   tempfile=$(echo $i | awk -F"/" '{print $NF}' |sed "s/\.class$/\.jad/")
   jad $i
   mv $tempfile $dest
+  #ajc -cp $CLASSPATH:.:~/lib/java ~/lib/java/miaspecto.java $dest
 done
 
 cd $workingdir
