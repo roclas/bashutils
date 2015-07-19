@@ -8,4 +8,5 @@ fi
 
 etchostsfile="/etc/hosts"
 
-ip=$(getContainerIP.sh $1) && sudo su - "root" -c "sed -i '/'$1'/d' $etchostsfile &&  echo $ip $1 >> $etchostsfile"
+#docker inspect -f '{{.Config.Hostname}}' mysql0
+ip=$(docker inspect -f '{{.NetworkSettings.IPAddress}}' $1) && sudo su - "root" -c "sed -i '/'$1'/d' $etchostsfile &&  echo $ip $1 >> $etchostsfile"
