@@ -7,4 +7,3 @@ function grepInPDFs {
 function grepClassInJars {
 	for i in $(find $2 -name "*jar"|sort);do echo $i;jar -tf $i | grep -i "$1"|sed "s/^/\t/";done
 }
-
