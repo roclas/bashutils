@@ -5,3 +5,12 @@
 #        GatewayPorts yes
 
 ssh -gR 1234:localhost:80 carlos@localhost
+
+#sudo ssh -L 1234:localhost:22 ubuntu@my_amazon_machine
+##and then you can connect to it doing "ssh ubuntu@localhost -p 1234"
+
+#sudo ssh -N -R 1234:localhost:80 ubuntu@my_amazon_machine
+##and then see your apache from http://my_amazon_machine:1234
+
+#sudo ssh -N -R 1234:localhost:22 ubuntu@my_amazon_machine
+##and then let other people access your computer from the outside like this:ssh carlos@my_amazon_machine -p 1234
