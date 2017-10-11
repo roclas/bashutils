@@ -4,7 +4,7 @@ function grepInPDFs {
 	directory=$2
 	string=$1
 	for i in $(find $directory -name "*pdf"|sort);do 
-		text=pdftotext $i - | tail -n +2 |grep -i "$string"|sed "s/^/\t/"
+		text=$(pdftotext $i - | tail -n +2 |grep -i "$string"|sed "s/^/\t/")
 		echo $text
 		if [ ! -z "$text"  ];then
 			echo $i
