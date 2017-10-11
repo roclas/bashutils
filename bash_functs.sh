@@ -5,9 +5,8 @@ function grepInPDFs {
 	string=$1
 	for i in $(find $directory -name "*pdf"|sort);do 
 		text=$(pdftotext $i - | tail -n +2 |grep -i "$string"|sed "s/^/\t/")
-		echo $text
 		if [ ! -z "$text"  ];then
-			echo $i
+			echo "\n\n$i"
 			pdftotext $i - | tail -n +2| grep -i "$string"|sed "s/^\([\"']\)\(.*\)\1\$/\2/g"|sed "s/^/\t/";
 		fi
 	done
@@ -17,8 +16,7 @@ function grepClassInJars {
 	for i in $(find $2 -name "*jar"|sort);do 
 		text=$(jar -tf $i | grep -i "$1"|sed "s/^/\t/")
 		if [ ! -z "$text"  ];then
-			echo $i
-			jar -tf $i | grep -i "$1"|sed "s/^/\t/"
+			echo "\n\n$i\n$text"
 		fi
 	done
 }
