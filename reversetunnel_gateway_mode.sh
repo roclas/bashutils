@@ -4,7 +4,7 @@
 #Match User stratio
 #        GatewayPorts yes
 
-ssh -gR 1234:localhost:80 carlos@localhost
+ssh -f -gR 8888:localhost:80 $(whoami)@localhost echo #the -f puts it in the background and the echo is just a command 
 
 #sudo ssh -L 1234:localhost:22 ubuntu@my_amazon_machine
 ##and then you can connect to it doing "ssh ubuntu@localhost -p 1234"
