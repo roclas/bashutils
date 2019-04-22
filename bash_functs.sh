@@ -51,3 +51,13 @@ function searchw {
 	google-chrome /tmp/delete.html
 }
 
+####################
+###Usage############
+####################
+##myvar=myvalue
+##generateFromTemplate myTemplatefile.txt (which contains ${myvalue}
+####################
+function generateFromTemplate {
+	cat $1 | perl -p -e 's/\$\{([^}]+)\}/defined $ENV{$1} ? $ENV{$1} : $&/eg' 
+}
+
