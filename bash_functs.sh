@@ -5,7 +5,7 @@ function findFilesThatContain(){grep -ri $1 .| awk -F: '{print $1}' | sort | uni
 function grepInPDFs {
 	directory=$2
 	string=$1
-	for i in $(find $directory -name "*pdf"|sort);do 
+	for i in $(find $directory -name "*.pdf"|sort);do 
 		text=$(pdftotext "$i" - | tail -n +2 |grep -i "$string"|sed "s/^/\t/")
 		if [ ! -z "$text"  ];then
 			echo "\n\n$i"
@@ -15,7 +15,7 @@ function grepInPDFs {
 }  
 
 function grepClassInJars {
-	for i in $(find $2 -name "*jar"|sort);do 
+	for i in $(find $2 -name "*.jar"|sort);do 
 		text=$(jar -tf $i | grep -i "$1"|sed "s/^/\t/")
 		if [ ! -z "$text"  ];then
 			echo "\n\n$i\n$text"
@@ -24,7 +24,7 @@ function grepClassInJars {
 }
 
 function grepTextInJars {
-	for i in $(find $2 -name "*jar"|sort);do 
+	for i in $(find $2 -name "*.jar"|sort);do 
 		for k in $(jar -tf $i); do
 			text=$(unzip -p $i $k| grep -i "$1"|sed "s/^/\t/")
 			if [ ! -z "$text"  ];then
@@ -35,7 +35,7 @@ function grepTextInJars {
 }
 
 function grepTextInLpkgs {
-	find $2 -name "*lpkg"| sort | while read i;do
+	find $2 -name "*.lpkg"| sort | while read i;do
 		for j in $(jar -tf "$i" | grep jar);do
 			text=$(unzip -q -c "$i" "$j" | grep -i "$1" |sed "s/^/\t/")
 			if [ ! -z "$text"  ];then
@@ -58,6 +58,54 @@ function searchw {
 ##generateFromTemplate myTemplatefile.txt (which contains ${myvalue}
 ####################
 function generateFromTemplate {
-	cat $1 | perl -p -e 's/\$\{([^}]+)\}/defined $ENV{$1} ? $ENV{$1} : $&/eg' 
+	echo "generating from template $1..."
+	#cat $1 | perl -p -e 's/\$\{([^}]+)\}/defined $ENV{$1} ? $ENV{$1} : $&/eg' 
+	perl -pe 's|\$([A-Za-z_]+)|$ENV{$1}|g' $1
 }
 
+watch0() {
+echo watching folder $1/ and then doing $2...
+while [[ true ]]
+do
+    files=`find $1 -type f -mmin -0.05 `
+    if [[ $files == "" ]] ; then
+        sleep 0
+    else
+            eval "$2"
+    fi
+    sleep 3
+done
+}
+
+compileAgainstLiferayOnlyJars() {
+ javafile=$1
+ portalfolder=$2
+ if [ $# -lt 3 ]; then; extraclasspath="/tmp"; else; extraclasspath=$3; fi
+ echo "file to compile=$1"
+ echo "bundle folder to compile against=$2"
+ classpath=$(find $portalfolder -name "*.jar"| tr '\n' ':').
+ classpath=$classpath:$(find /tmp/ -name "*.jar"| tr '\n' ':')"/tmp:$extraclasspath"
+ javac -cp "$classpath" $javafile
+}
+
+compileAgainstLiferayExplodingLpkgs() {
+ find $2 -name "*.lpkg"| while read l; do; echo "unzipping $l into /tmp/" && yes|unzip "$l" -d /tmp/ ;done
+ if [ $# -lt 3 ]; then; e="/tmp"; fi
+ compileAgainstLiferayOnlyJars $1 $2 $e # $e are the extra classpath folders
+}
+
+
+injectClassInLiferayLpkg() {
+ if [ $# -lt 3 ];then
+	file=$1;bundle=$2
+ 	grepTextInLpkgs $file $bundle
+ 	echo "usage $0 your.lpkg jarInsideLpkg.jar $1"
+ else
+	lpkgFile=$1;jarFileInside=$2;classFile=$3
+	echo "\n\n steps:\n--------------------------"
+	echo "jar -xf '$lpkgFile' $jarFileInside"
+ 	echo "and then ..."
+ 	echo "jar uf $jarFileInside $classFile"
+ 	echo "zip -ur '$lpkgFile' $jarFileInside "
+ fi
+}
