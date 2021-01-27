@@ -1,0 +1,25 @@
+#!/usr/bin/expect -f
+
+log_user 0
+spawn telnet localhost 11311
+expect "g!"
+
+#one way of doing it
+set fp [open "test.groovy"]
+set script [read $fp]
+close $fp
+set lines [split $script "\n"]
+set lines [lsearch -all -inline -regexp -not $lines "^#.*"]
+set script [join $lines " "]
+regsub -all {\n|\t} $script " " script
+
+puts "\n\nrunning the following script:\n$script" 
+
+send -- " \
+resolve 1669; ($.context getService ($.context getServiceReference com.liferay.portal.kernel.scripting.ScriptingExecutor )) eval null null null '$script'
+\n"
+
+
+expect "g!"
+send_user $expect_out(buffer)
+

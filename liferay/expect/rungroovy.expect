@@ -1,0 +1,34 @@
+#!/usr/bin/expect -f
+log_user 0
+spawn telnet localhost 11311
+expect "g!"
+
+#one way of doing it
+set fp [open "test.groovy"]
+set script [read $fp]
+close $fp
+set lines [split $script "\n"]
+set lines [lsearch -all -inline -regexp -not $lines "^#.*"]
+set script [join $lines " "]
+regsub -all {\n|\t} $script " " script
+
+#another way of doing it (just to show how it's done)
+set groovy_script { \
+	System.out.println ("hello world"); \
+	for (i = 0; i <3; i++) { \
+	   System.out.println("Helo World") \
+	} \
+}; # use braces to avoid escaping altogether
+
+puts "\n\nrunning first the following script0:\n$script" 
+
+#send -- " \
+#(service ($.context getServiceReference com.liferay.portal.kernel.scripting.ScriptingExecutor )) eval null null null '$script'
+#\n"
+
+send -- " \
+($.context getService ($.context getServiceReference com.liferay.portal.kernel.scripting.ScriptingExecutor)) eval null null null '$script'
+\n"
+
+expect "g!"
+send_user $expect_out(buffer)

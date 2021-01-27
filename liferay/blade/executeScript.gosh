@@ -1,0 +1,19 @@
+service = { $.context service ([($.context servicereferences $1 $2)] get 0) };
+
+scriptFile = $1;
+fileUtil = service "com.liferay.portal.kernel.util.File" null;
+script = $fileUtil read $scriptFile;
+editServerCommand = service "com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand" "(mvc.command.name=/server_admin/edit_server)"
+editServerCommandClass = $editServerCommand class
+
+currentThread = (($editServerCommandClass forname "java.lang.Thread") method "currentThread") invoke null;
+currentThreadClassLoader = $currentThread contextclassloader;
+
+$currentThread setcontextclassloader ($editServerCommandClass classloader);
+
+if { $2 } { scriptingLanguage = $2 } { scriptingLanguage = "groovy" }
+
+groovyExecutor = service "com.liferay.portal.kernel.scripting.ScriptingExecutor" "(scripting.language=$scriptingLanguage)";
+$groovyExecutor eval null null null $script;
+
+$currentThread setcontextclassloader $currentThreadClassLoader;
