@@ -23,8 +23,21 @@ function grepClassInJars {
 	done
 }
 
+
+
 function grepTextInJars {
 	for i in $(find $2 -name "*.jar"|sort);do 
+		for k in $(jar -tf $i); do
+			text=$(unzip -p $i $k| grep -i "$1"|sed "s/^/\t/")
+			if [ ! -z "$text"  ];then
+				echo "\n\n$i ($k):\n$text"
+			fi
+		done
+	done
+}
+
+function grepTextInWars {
+	for i in $(find $2 -name "*.war"|sort);do 
 		for k in $(jar -tf $i); do
 			text=$(unzip -p $i $k| grep -i "$1"|sed "s/^/\t/")
 			if [ ! -z "$text"  ];then
@@ -109,3 +122,14 @@ injectClassInLiferayLpkg() {
  	echo "zip -ur '$lpkgFile' $jarFileInside "
  fi
 }
+
+ncolumn(){ awk '{print $'$1'}' < /dev/stdin }
+
+
+bashmap () {         
+        while read i
+        do
+                echo "$($@ $i)"
+        done
+}
+

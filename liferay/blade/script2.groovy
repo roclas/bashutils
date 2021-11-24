@@ -21,10 +21,10 @@ fooClass=fooClassLoader.loadClass(fooService.getClass().getName())
 //System.out.println("item created : "+item)
 
 //reducing transactions (counted 23 after executing the following two lines)
-//items=(fooClass.cast(fooService)).createManyItems(1000) //half a second
-//(fooClass.cast(fooService)).updateManyItems(items) // less than a second
+items=(fooClass.cast(fooService)).createManyItems(1000) //half a second
+(fooClass.cast(fooService)).updateManyItems(items) // less than a second
 
 //not reducing the transactions (counted 3020  after executing the following 2 lines)
-items=(0..999).collect { ((fooClass.cast(fooService)).createOneItem()) } //6.5 seconds
-items.each{ foo -> (fooClass.cast(fooService)).updateOneItem(foo) } // 7 seconds
+//items=(0..999).collect { ((fooClass.cast(fooService)).createOneItem()) } //6.5 seconds
+//items.each{ foo -> (fooClass.cast(fooService)).updateOneItem(foo) } // 7 seconds
 
