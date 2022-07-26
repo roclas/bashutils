@@ -14,3 +14,15 @@ ssh -f -gR 8888:localhost:80 $(whoami)@localhost echo #the -f puts it in the bac
 
 #sudo ssh -N -R 1234:localhost:22 ubuntu@my_amazon_machine
 ##and then let other people access your computer from the outside like this:ssh carlos@my_amazon_machine -p 1234
+
+
+###########################################
+###Expose your local 80 in amazon's 12345##
+###########################################
+#(from localhost) ssh -R 50505:localhost:80 myamazonserver
+#(from amazon) socat TCP-LISTEN:12345,fork TCP:127.0.0.1:50505
+###########################################
+#or even shorter: (but this one doesn't seem to work)
+#ssh -R 12345:localhost:80 myamazonserver (from localhost)
+##########################################
+

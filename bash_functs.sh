@@ -127,9 +127,14 @@ ncolumn(){ awk '{print $'$1'}' < /dev/stdin }
 
 
 bashmap () {         
+	zero="$@"
         while read i
         do
-                echo "$($@ $i)"
+		#echo "$($@ $i)"
+		set "$i"
+        	$zero $1 $2 $3 $4 $5 $6 $7 $8 $9
+		set --
         done
+
 }
 

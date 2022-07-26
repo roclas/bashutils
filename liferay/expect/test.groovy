@@ -6,13 +6,16 @@ import com.liferay.registry.*;
 System.out.println("Users count from file: "+UserLocalServiceUtil.getUsersCount());
 Registry registry = RegistryUtil.getRegistry();
 
+/*
 #ignore this line
+*/
 
 System.out.println ("=>hello world");
 for (i = 0; i <10; i++) { 
 		System.out.println("->Helo World")
 }; 
 
+/*
 #######################
 ########OTHER STUFF
 #######################
@@ -22,4 +25,5 @@ conversationClass=conversationClassLoader.loadClass(conversationService.getClass
 reply=(conversationClass.cast(conversationService)).reply("hello");
 System.out.println("the service replied: "+reply);
 
+*/
 
