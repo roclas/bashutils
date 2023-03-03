@@ -123,7 +123,13 @@ injectClassInLiferayLpkg() {
  fi
 }
 
-ncolumn(){ awk '{print $'$1'}' < /dev/stdin }
+ncolumn(){ 
+	if [ "$#" -gt 1 ]; then
+		awk -F"$1" '{print $'$2'}' < /dev/stdin 
+	else
+		awk '{print $'$1'}' < /dev/stdin 
+	fi
+}
 
 
 bashmap () {         
