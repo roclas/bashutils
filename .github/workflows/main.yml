@@ -14,7 +14,7 @@ jobs:
           spreadsheetId: '1V_L6-qxqvtea16MSZqsnk3wFp8M1f_rKphGOVur0UaM'
           commands: | # list of commands, specified as a valid JSON string
             [
-              { "command": "appendData", "args": { "worksheetTitle":"Sheet1","data": [["B1", "B2", "B3"]], "minCol": 1 }}
+              { "command": "getData", "args": { "range": "'Sheet1'!A2:B3" }
             ]
         env:
           GSHEET_CLIENT_EMAIL: ${{ secrets.CLIENT_EMAIL }}
