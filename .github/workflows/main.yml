@@ -1,5 +1,5 @@
 name: gsheet.action test
-on: push
+on: [ push,   workflow_dispatch ]
 
 jobs:
   fetch:
