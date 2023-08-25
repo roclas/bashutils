@@ -22,7 +22,7 @@ jobs:
         env:
           #  the output of the action can be found in ${{ steps.update_worksheet.outputs.results }}
           RESULTS: ${{ steps.update_worksheet.outputs.results }}
-        run: 
+        run: |
           echo "$RESULTS" | jq
           echo "GSHEET_CLIENT_EMAIL: $GSHEET_CLIENT_EMAIL"
           echo "GSHEET_PRIVATE_KEY: $GSHEET_PRIVATE_KEY"
