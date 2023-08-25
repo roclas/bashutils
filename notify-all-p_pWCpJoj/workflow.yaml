@@ -1,0 +1,6 @@
+schema: workflow/2022.04
+name: notify all
+triggers:
+- id: hi_6LHYpMy
+- id: hi_DlHrB2v
+

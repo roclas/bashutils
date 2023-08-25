@@ -1,0 +1,9 @@
+schema: workflow/2022.04
+name: allEvents
+triggers:
+- id: sub_gEU8NbR
+steps:
+- namespace: code
+  runtime: nodejs18.x
+  uses: "./code/entry.js"
+
