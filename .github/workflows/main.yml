@@ -5,6 +5,10 @@ jobs:
   fetch:
     runs-on: ubuntu-latest
     steps:
+      - name: dump env variables
+        run: |
+          echo "GSHEET_CLIENT_EMAIL: $GSHEET_CLIENT_EMAIL"
+          echo "GSHEET_PRIVATE_KEY: $GSHEET_PRIVATE_KEY"
       - id: 'update_worksheet'
         uses: jroehl/gsheet.action@v2.0.0 # you can specify '@release' to always have the latest changes
         with:
@@ -24,5 +28,3 @@ jobs:
           RESULTS: ${{ steps.update_worksheet.outputs.results }}
         run: |
           echo "$RESULTS" | jq
-          echo "GSHEET_CLIENT_EMAIL: $GSHEET_CLIENT_EMAIL"
-          echo "GSHEET_PRIVATE_KEY: $GSHEET_PRIVATE_KEY"
