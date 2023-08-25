@@ -1,5 +1,7 @@
 name: gsheet.action test
-on: [ push, workflow_dispatch ]
+on: 
+  push:
+  workflow_dispatch:
 jobs:
   fetch:
     runs-on: ubuntu-latest
@@ -26,4 +28,4 @@ jobs:
           RESULTS: ${{ steps.update_worksheet.outputs.results }}
         run: |
           echo "$RESULTS" | jq
-          echo "${{github.event}}" | jq
+          echo "${{toJSON(github.event)}}"
