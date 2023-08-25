@@ -26,4 +26,4 @@ jobs:
           RESULTS: ${{ steps.update_worksheet.outputs.results }}
         run: |
           echo "$RESULTS" | jq
-          echo "${{github.event}}"
+          echo "${{github.event}}" | jq
