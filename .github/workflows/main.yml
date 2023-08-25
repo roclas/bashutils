@@ -17,7 +17,7 @@ jobs:
           commands: | # list of commands, specified as a valid JSON string
             [
               { "command": "getData", "args": { "range": "'Sheet1'!A2:B3" }},
-              { "command": "appendData", "args": { "data": [["Push Event", "${{ github.event.repository.updated_at}}", "B3"]], "minCol": 1 }}
+              { "command": "appendData", "args": { "data": [["Push Event", "${{ github.event.repository.updated_at}}", "$${{github.event.commits[0].author.email}}"]], "minCol": 1 }}
             ]
         env:
           GSHEET_CLIENT_EMAIL: ${{ secrets.CLIENT_EMAIL }}
