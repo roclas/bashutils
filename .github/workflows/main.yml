@@ -1,6 +1,5 @@
 name: gsheet.action test
-on: [ push,   workflow_dispatch ]
-
+on: [ push, workflow_dispatch ]
 jobs:
   fetch:
     runs-on: ubuntu-latest
